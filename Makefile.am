@@ -1,5 +1,6 @@
 SUBDIRS = src
 DIST_SUBDIRS = src docs VisualC2003
+ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
     SDL2_Pango.pc.in sidebyside_patch \

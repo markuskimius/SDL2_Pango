@@ -1,0 +1,16 @@
+.deps
+.libs
+*.o
+*.la
+*.lo
+*.swp
+autom4te.cache
+config.log
+config.status
+configure~
+Doxyfile
+Makefile
+SDL2_Pango.pc
+Wix/dev.xml
+Wix/merge_module.xml
+Wix/testbench.xml

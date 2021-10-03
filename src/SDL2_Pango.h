@@ -69,6 +69,8 @@ extern const SDLPango_Matrix *MATRIX_TRANSPARENT_BACK_WHITE_LETTER;
 */
 extern const SDLPango_Matrix *MATRIX_TRANSPARENT_BACK_TRANSPARENT_LETTER;
 
+typedef FT_Bitmap;
+
 /*!
     Specifies direction of text. See Pango reference for detail
 */
@@ -156,15 +158,11 @@ extern DECLSPEC void SDLCALL SDLPango_SetBaseDirection(
     SDLPango_Direction direction);
 
 
-#ifdef __FT2_BUILD_UNIX_H__
-
 extern DECLSPEC void SDLCALL SDLPango_CopyFTBitmapToSurface(
     const FT_Bitmap *bitmap,
     SDL_Surface *surface,
     const SDLPango_Matrix *matrix,
     SDL_Rect *rect);
-
-#endif	/* __FT2_BUILD_UNIX_H__ */
 
 
 #ifdef __PANGO_H__
