@@ -1268,6 +1268,7 @@ EOF
 		case $UNAME_PROCESSOR in
 		    i386) UNAME_PROCESSOR=x86_64 ;;
 		    powerpc) UNAME_PROCESSOR=powerpc64 ;;
+		    arm64) UNAME_PROCESSOR=aarch64 ;;
 		esac
 	    fi
 	fi
