@@ -14,3 +14,4 @@ SDL2_Pango.pc
 Wix/dev.xml
 Wix/merge_module.xml
 Wix/testbench.xml
+.DS_Store
