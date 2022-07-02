@@ -16,11 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 */
 
-#include "SDL_Pango.h"
+#include "SDL2_Pango.h"
 #include "stdio.h"
 #include "stdlib.h"
 
 SDLPango_Context *context;
+SDL_Window *window;
 char *text;
 
 int resizeLoop(SDL_Surface **framebuf)
@@ -32,8 +33,9 @@ int resizeLoop(SDL_Surface **framebuf)
         case SDL_QUIT:
             return 0;
 
-        case  SDL_VIDEORESIZE:
-            *framebuf = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_SWSURFACE | SDL_RESIZABLE);
+        case  SDL_WINDOWEVENT:
+            if(event.window.event == SDL_WINDOWEVENT_RESIZED)
+                *framebuf = SDL_GetWindowSurface(window);
             break;
 
         case SDL_KEYUP:
@@ -63,7 +65,7 @@ char *readFile(const char *filename)
     file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
     text = (char *)malloc(file_size + 1);
-    fread(text, file_size, 1, file);
+    (void)!fread(text, file_size, 1, file);  /* (void)! suppresses unused-result warning */
     text[file_size] = '\0';
 
     return text;
@@ -73,15 +75,43 @@ int main(int argc, char *argv[])
 {
     SDL_Surface *framebuf;
     SDL_Surface *surface;
-    if(argc == 1)
+
+    if(argc == 1) {
+        fprintf(stderr, "Usage: ./testbench markup.txt\n");
         exit(1);
+    }
 
-    SDL_Init(SDL_INIT_VIDEO);
-    SDLPango_Init();
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        exit(1);
+    }
 
-    framebuf = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE | SDL_RESIZABLE);
+    if(SDLPango_Init() < 0) {
+        fprintf(stderr, "Failed to initialize SDL2_Pango\n");
+        SDL_Quit();
+        exit(1);
+    }
+
+    window = SDL_CreateWindow(NULL, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_SWSURFACE | SDL_WINDOW_RESIZABLE);
+    if(!window) {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        SDL_Quit();
+        exit(1);
+    }
+
+    framebuf = SDL_GetWindowSurface(window);
+    if(!framebuf) {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        SDL_Quit();
+        exit(1);
+    }
 
     context = SDLPango_CreateContext();
+    if(!context) {
+        fprintf(stderr, "Failed to create SDL2_Pango context\n");
+        SDL_Quit();
+        exit(1);
+    }
 
 #ifdef SET_DPI
     SDLPango_SetDpi(context, 200.0, 200.0);
@@ -105,7 +135,7 @@ int main(int argc, char *argv[])
 
         SDLPango_SetMinimumSize(context, framebuf->w, 0);
 
-#ifdef GET_LAUOUT_WIDTH
+#ifdef GET_LAYOUT_WIDTH
         {
             int w, h;
             w = SDLPango_GetLayoutWidth(context);
@@ -124,7 +154,7 @@ int main(int argc, char *argv[])
 
         SDL_FillRect(framebuf, NULL, SDL_MapRGBA(framebuf->format, 0, 0, 0, 0));
         SDL_BlitSurface(surface, NULL, framebuf, NULL);
-        SDL_UpdateRect(framebuf, 0, 0, framebuf->w, framebuf->h);
+        SDL_UpdateWindowSurface(window);
 
         SDL_FreeSurface(surface);
     }
