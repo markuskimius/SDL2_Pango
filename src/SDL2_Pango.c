@@ -175,9 +175,9 @@
     int margin_x = 10;
     int margin_y = 10;
     SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE, 
-	w + margin_x * 2, h + margin_y * 2,
-	32, (Uint32)(255 << (8 * 3)), (Uint32)(255 << (8 * 2)),
-	(Uint32)(255 << (8 * 1)), 255);
+        w + margin_x * 2, h + margin_y * 2,
+        32, (Uint32)(255 << (8 * 3)), (Uint32)(255 << (8 * 2)),
+        (Uint32)(255 << (8 * 1)), 255);
     \endcode
 
     And draw on it.
@@ -398,10 +398,10 @@ drawGlyphString(
     pango_ft2_render(context->tmp_ftbitmap, font, glyphs, rect->x, rect->y + baseline);
 
     SDLPango_CopyFTBitmapToSurface(
-	context->tmp_ftbitmap,
-	surface,
-	color_matrix,
-	rect);
+        context->tmp_ftbitmap,
+        surface,
+        color_matrix,
+        rect);
 
     clearFTBitmap(context->tmp_ftbitmap);
 }
@@ -430,38 +430,38 @@ static void drawHLine(
     int pixel_bytes = surface->format->BytesPerPixel;
 
     if (y < 0 || y >= surface->h)
-	return;
+        return;
 
     if (end <= 0 || start >= surface->w)
-	return;
+        return;
 
     if (start < 0)
-	start = 0;
+        start = 0;
 
     if (end >= surface->w)
-	end = surface->w;
+        end = surface->w;
 
     p = (Uint8 *)(surface->pixels) + y * surface->pitch + start * pixel_bytes;
     color = SDL_MapRGBA(surface->format,
-	color_matrix->m[0][1],
-	color_matrix->m[1][1], 
-	color_matrix->m[2][1], 
-	color_matrix->m[3][1]);
+        color_matrix->m[0][1],
+        color_matrix->m[1][1], 
+        color_matrix->m[2][1], 
+        color_matrix->m[3][1]);
 
     switch(pixel_bytes) {
     case 2:
-	p16 = (Uint16 *)p;
-	for (ix = 0; ix < end - start; ix++)
-	    *p16++ = (Uint16)color;
-	break;
+        p16 = (Uint16 *)p;
+        for (ix = 0; ix < end - start; ix++)
+            *p16++ = (Uint16)color;
+        break;
     case 4:
-	p32 = (Uint32 *)p;
-	for (ix = 0; ix < end - start; ix++)
-	    *p32++ = color;
-	break;
+        p32 = (Uint32 *)p;
+        for (ix = 0; ix < end - start; ix++)
+            *p32++ = color;
+        break;
     default:
-	SDL_SetError("surface->format->BytesPerPixel is invalid value");
-	break;
+        SDL_SetError("surface->format->BytesPerPixel is invalid value");
+        break;
     }
 }
 
@@ -493,118 +493,118 @@ drawLine(
     int x_off = 0;
 
     while (tmp_list) {
-	SDLPango_Matrix color_matrix = context->color_matrix;
-	PangoUnderline uline = PANGO_UNDERLINE_NONE;
-	gboolean strike, fg_set, bg_set, shape_set;
-	gint rise, risen_y;
-	PangoLayoutRun *run = tmp_list->data;
-	SDL_Rect d_rect;
+        SDLPango_Matrix color_matrix = context->color_matrix;
+        PangoUnderline uline = PANGO_UNDERLINE_NONE;
+        gboolean strike, fg_set, bg_set, shape_set;
+        gint rise, risen_y;
+        PangoLayoutRun *run = tmp_list->data;
+        SDL_Rect d_rect;
 
-	tmp_list = tmp_list->next;
+        tmp_list = tmp_list->next;
 
-	getItemProperties(run->item,
-	    &uline, &strike, &rise,
-	    &fg_color, &fg_set, &bg_color, &bg_set,
-	    &shape_set, &ink_rect, &logical_rect);
+        getItemProperties(run->item,
+            &uline, &strike, &rise,
+            &fg_color, &fg_set, &bg_color, &bg_set,
+            &shape_set, &ink_rect, &logical_rect);
 
-	risen_y = y + baseline - PANGO_PIXELS (rise);
+        risen_y = y + baseline - PANGO_PIXELS (rise);
 
-	if(fg_set) {
-	    color_matrix.m[0][1] = (Uint8)(fg_color.red >> 8);
-	    color_matrix.m[1][1] = (Uint8)(fg_color.green >> 8);
-	    color_matrix.m[2][1] = (Uint8)(fg_color.blue >> 8);
-	    color_matrix.m[3][1] = 255;
-	    if(color_matrix.m[3][0] == 0) {
-		color_matrix.m[0][0] = (Uint8)(fg_color.red >> 8);
-		color_matrix.m[1][0] = (Uint8)(fg_color.green >> 8);
-		color_matrix.m[2][0] = (Uint8)(fg_color.blue >> 8);
-	    }
-	}
+        if(fg_set) {
+            color_matrix.m[0][1] = (Uint8)(fg_color.red >> 8);
+            color_matrix.m[1][1] = (Uint8)(fg_color.green >> 8);
+            color_matrix.m[2][1] = (Uint8)(fg_color.blue >> 8);
+            color_matrix.m[3][1] = 255;
+            if(color_matrix.m[3][0] == 0) {
+                color_matrix.m[0][0] = (Uint8)(fg_color.red >> 8);
+                color_matrix.m[1][0] = (Uint8)(fg_color.green >> 8);
+                color_matrix.m[2][0] = (Uint8)(fg_color.blue >> 8);
+            }
+        }
 
-	if (bg_set) {
-	    color_matrix.m[0][0] = (Uint8)(bg_color.red >> 8);
-	    color_matrix.m[1][0] = (Uint8)(bg_color.green >> 8);
-	    color_matrix.m[2][0] = (Uint8)(bg_color.blue >> 8);
-	    color_matrix.m[3][0] = 255;
-	}
+        if (bg_set) {
+            color_matrix.m[0][0] = (Uint8)(bg_color.red >> 8);
+            color_matrix.m[1][0] = (Uint8)(bg_color.green >> 8);
+            color_matrix.m[2][0] = (Uint8)(bg_color.blue >> 8);
+            color_matrix.m[3][0] = 255;
+        }
 
-	if(! shape_set) {
-	    if (uline == PANGO_UNDERLINE_NONE)
-		pango_glyph_string_extents (run->glyphs, run->item->analysis.font,
-					    NULL, &logical_rect);
-	    else
-		pango_glyph_string_extents (run->glyphs, run->item->analysis.font,
-					    &ink_rect, &logical_rect);
+        if(! shape_set) {
+            if (uline == PANGO_UNDERLINE_NONE)
+                pango_glyph_string_extents (run->glyphs, run->item->analysis.font,
+                                            NULL, &logical_rect);
+            else
+                pango_glyph_string_extents (run->glyphs, run->item->analysis.font,
+                                            &ink_rect, &logical_rect);
 
-	    d_rect.w = (Uint16)PANGO_PIXELS(logical_rect.width);
-	    d_rect.h = (Uint16)height;
-	    d_rect.x = (Uint16)(x + PANGO_PIXELS (x_off));
-	    d_rect.y = (Uint16)(risen_y - baseline);
+            d_rect.w = (Uint16)PANGO_PIXELS(logical_rect.width);
+            d_rect.h = (Uint16)height;
+            d_rect.x = (Uint16)(x + PANGO_PIXELS (x_off));
+            d_rect.y = (Uint16)(risen_y - baseline);
 
-	    if((! context->tmp_ftbitmap) || d_rect.w + d_rect.x > context->tmp_ftbitmap->width
-		|| d_rect.h + d_rect.y > context->tmp_ftbitmap->rows)
-	    {
-		freeFTBitmap(context->tmp_ftbitmap);
-		context->tmp_ftbitmap = createFTBitmap(d_rect.w + d_rect.x, d_rect.h + d_rect.y);
-	    }
+            if((! context->tmp_ftbitmap) || d_rect.w + d_rect.x > context->tmp_ftbitmap->width
+                || d_rect.h + d_rect.y > context->tmp_ftbitmap->rows)
+            {
+                freeFTBitmap(context->tmp_ftbitmap);
+                context->tmp_ftbitmap = createFTBitmap(d_rect.w + d_rect.x, d_rect.h + d_rect.y);
+            }
 
-	    drawGlyphString(context, surface, 
-		&color_matrix, 
-		run->item->analysis.font, run->glyphs, &d_rect, baseline);
-	}
+            drawGlyphString(context, surface, 
+                &color_matrix, 
+                run->item->analysis.font, run->glyphs, &d_rect, baseline);
+        }
         switch (uline) {
-	case PANGO_UNDERLINE_NONE:
-	    break;
-	case PANGO_UNDERLINE_DOUBLE:
-	    drawHLine(surface, &color_matrix,
-		risen_y + 4,
-		x + PANGO_PIXELS (x_off + ink_rect.x),
-		x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
-	  /* Fall through */
-	case PANGO_UNDERLINE_SINGLE:
-	    drawHLine(surface, &color_matrix,
-		risen_y + 2,
-		x + PANGO_PIXELS (x_off + ink_rect.x),
-		x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
-	    break;
-	case PANGO_UNDERLINE_ERROR:
-	    {
-		int point_x;
-		int counter = 0;
-		int end_x = x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width);
+        case PANGO_UNDERLINE_NONE:
+            break;
+        case PANGO_UNDERLINE_DOUBLE:
+            drawHLine(surface, &color_matrix,
+                risen_y + 4,
+                x + PANGO_PIXELS (x_off + ink_rect.x),
+                x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
+          /* Fall through */
+        case PANGO_UNDERLINE_SINGLE:
+            drawHLine(surface, &color_matrix,
+                risen_y + 2,
+                x + PANGO_PIXELS (x_off + ink_rect.x),
+                x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
+            break;
+        case PANGO_UNDERLINE_ERROR:
+            {
+                int point_x;
+                int counter = 0;
+                int end_x = x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width);
 
-		for (point_x = x + PANGO_PIXELS (x_off + ink_rect.x) - 1;
-		    point_x <= end_x;
-		    point_x += 2)
-		{
-		    if (counter)
-			drawHLine(surface, &color_matrix,
-			    risen_y + 2,
-			    point_x, MIN (point_x + 1, end_x));
-		    else
-			drawHLine(surface, &color_matrix,
-			    risen_y + 3,
-			    point_x, MIN (point_x + 1, end_x));
-    		
-		    counter = (counter + 1) % 2;
-		}
-	    }
-	    break;
-	case PANGO_UNDERLINE_LOW:
-	    drawHLine(surface, &color_matrix,
-		risen_y + PANGO_PIXELS (ink_rect.y + ink_rect.height),
-		x + PANGO_PIXELS (x_off + ink_rect.x),
-		x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
-	  break;
-	}
+                for (point_x = x + PANGO_PIXELS (x_off + ink_rect.x) - 1;
+                    point_x <= end_x;
+                    point_x += 2)
+                {
+                    if (counter)
+                        drawHLine(surface, &color_matrix,
+                            risen_y + 2,
+                            point_x, MIN (point_x + 1, end_x));
+                    else
+                        drawHLine(surface, &color_matrix,
+                            risen_y + 3,
+                            point_x, MIN (point_x + 1, end_x));
+                
+                    counter = (counter + 1) % 2;
+                }
+            }
+            break;
+        case PANGO_UNDERLINE_LOW:
+            drawHLine(surface, &color_matrix,
+                risen_y + PANGO_PIXELS (ink_rect.y + ink_rect.height),
+                x + PANGO_PIXELS (x_off + ink_rect.x),
+                x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
+          break;
+        }
 
         if (strike)
-	    drawHLine(surface, &color_matrix,
-		risen_y + PANGO_PIXELS (logical_rect.y + logical_rect.height / 2),
-		x + PANGO_PIXELS (x_off + logical_rect.x),
-		x + PANGO_PIXELS (x_off + logical_rect.x + logical_rect.width));
+            drawHLine(surface, &color_matrix,
+                risen_y + PANGO_PIXELS (logical_rect.y + logical_rect.height / 2),
+                x + PANGO_PIXELS (x_off + logical_rect.x),
+                x + PANGO_PIXELS (x_off + logical_rect.x + logical_rect.width));
 
-	x_off += logical_rect.width;
+        x_off += logical_rect.width;
     }
 }
 
@@ -640,66 +640,66 @@ getItemProperties (
     GSList *tmp_list = item->analysis.extra_attrs;
 
     if (strikethrough)
-	*strikethrough = FALSE;
+        *strikethrough = FALSE;
   
     if (fg_set)
         *fg_set = FALSE;
 
     if (bg_set)
-	*bg_set = FALSE;
+        *bg_set = FALSE;
 
     if (shape_set)
-	*shape_set = FALSE;
+        *shape_set = FALSE;
 
     if (rise)
-	*rise = 0;
+        *rise = 0;
 
     while (tmp_list) {
-	PangoAttribute *attr = tmp_list->data;
+        PangoAttribute *attr = tmp_list->data;
 
-	switch (attr->klass->type) {
-	case PANGO_ATTR_UNDERLINE:
-	    if (uline)
-		*uline = ((PangoAttrInt *)attr)->value;
-	    break;
+        switch (attr->klass->type) {
+        case PANGO_ATTR_UNDERLINE:
+            if (uline)
+                *uline = ((PangoAttrInt *)attr)->value;
+            break;
 
-	case PANGO_ATTR_STRIKETHROUGH:
-	    if (strikethrough)
-		*strikethrough = ((PangoAttrInt *)attr)->value;
-	    break;
-    	
-	case PANGO_ATTR_FOREGROUND:
-	    if (fg_color)
-		*fg_color = ((PangoAttrColor *)attr)->color;
-	    if (fg_set)
-		*fg_set = TRUE;
-	    break;
-    	
-	case PANGO_ATTR_BACKGROUND:
-	    if (bg_color)
-		*bg_color = ((PangoAttrColor *)attr)->color;
-	    if (bg_set)
-		*bg_set = TRUE;
-	    break;
+        case PANGO_ATTR_STRIKETHROUGH:
+            if (strikethrough)
+                *strikethrough = ((PangoAttrInt *)attr)->value;
+            break;
+        
+        case PANGO_ATTR_FOREGROUND:
+            if (fg_color)
+                *fg_color = ((PangoAttrColor *)attr)->color;
+            if (fg_set)
+                *fg_set = TRUE;
+            break;
+        
+        case PANGO_ATTR_BACKGROUND:
+            if (bg_color)
+                *bg_color = ((PangoAttrColor *)attr)->color;
+            if (bg_set)
+                *bg_set = TRUE;
+            break;
 
-	case PANGO_ATTR_SHAPE:
-	    if (shape_set)
-		*shape_set = TRUE;
-	    if (logical_rect)
-		*logical_rect = ((PangoAttrShape *)attr)->logical_rect;
-	    if (ink_rect)
-		*ink_rect = ((PangoAttrShape *)attr)->ink_rect;
-	    break;
+        case PANGO_ATTR_SHAPE:
+            if (shape_set)
+                *shape_set = TRUE;
+            if (logical_rect)
+                *logical_rect = ((PangoAttrShape *)attr)->logical_rect;
+            if (ink_rect)
+                *ink_rect = ((PangoAttrShape *)attr)->ink_rect;
+            break;
 
-	case PANGO_ATTR_RISE:
-	    if (rise)
-		*rise = ((PangoAttrInt *)attr)->value;
-	    break;
-    	
-	default:
-	    break;
-	}
-	tmp_list = tmp_list->next;
+        case PANGO_ATTR_RISE:
+            if (rise)
+                *rise = ((PangoAttrInt *)attr)->value;
+            break;
+        
+        default:
+            break;
+        }
+        tmp_list = tmp_list->next;
     }
 }
 
@@ -728,58 +728,58 @@ SDLPango_CopyFTBitmapToSurface(
     int y = rect->y;
 
     if(x < 0) {
-	width += x; x = 0;
+        width += x; x = 0;
     }
     if(x + width > surface->w) {
-	width = surface->w - x;
+        width = surface->w - x;
     }
     if(width <= 0)
-	return;
+        return;
 
     if(y < 0) {
-	height += y; y = 0;
+        height += y; y = 0;
     }
     if(y + height > surface->h) {
-	height = surface->h - y;
+        height = surface->h - y;
     }
     if(height <= 0)
-	return;
+        return;
 
     if(SDL_LockSurface(surface)) {
-	SDL_SetError("surface lock failed");
-	SDL_FreeSurface(surface);
-	return;
+        SDL_SetError("surface lock failed");
+        SDL_FreeSurface(surface);
+        return;
     }
 
     p_ft = (Uint8 *)bitmap->buffer + (bitmap->pitch * y);
     p_sdl = (Uint8 *)surface->pixels + (surface->pitch * y);
     for(i = 0; i < height; i ++) {
-	int k;
-	for(k = 0; k < width; k ++) {
-	    /* TODO: rewrite by matrix calculation library */
-	    Uint8 pixel[4];	/* 4: RGBA */
-	    int n;
+        int k;
+        for(k = 0; k < width; k ++) {
+            /* TODO: rewrite by matrix calculation library */
+            Uint8 pixel[4];     /* 4: RGBA */
+            int n;
 
-	    for(n = 0; n < 4; n ++) {
-		Uint16 w;
-		w = ((Uint16)matrix->m[n][0] * (256 - p_ft[k + x])) + ((Uint16)matrix->m[n][1] * p_ft[k + x]);
-		pixel[n] = (Uint8)(w >> 8);
-	    }
+            for(n = 0; n < 4; n ++) {
+                Uint16 w;
+                w = ((Uint16)matrix->m[n][0] * (256 - p_ft[k + x])) + ((Uint16)matrix->m[n][1] * p_ft[k + x]);
+                pixel[n] = (Uint8)(w >> 8);
+            }
 
-	    switch(surface->format->BytesPerPixel) {
-	    case 2:
-		((Uint16 *)p_sdl)[k + x] = (Uint16)SDL_MapRGBA(surface->format, pixel[0], pixel[1], pixel[2], pixel[3]);
-		break;
-	    case 4:
-		((Uint32 *)p_sdl)[k + x] = SDL_MapRGBA(surface->format, pixel[0], pixel[1], pixel[2], pixel[3]);
-		break;
-	    default:
-		SDL_SetError("surface->format->BytesPerPixel is invalid value");
-		return;
-	    }
-	}
-	p_ft += bitmap->pitch;
-	p_sdl += surface->pitch;
+            switch(surface->format->BytesPerPixel) {
+            case 2:
+                ((Uint16 *)p_sdl)[k + x] = (Uint16)SDL_MapRGBA(surface->format, pixel[0], pixel[1], pixel[2], pixel[3]);
+                break;
+            case 4:
+                ((Uint32 *)p_sdl)[k + x] = SDL_MapRGBA(surface->format, pixel[0], pixel[1], pixel[2], pixel[3]);
+                break;
+            default:
+                SDL_SetError("surface->format->BytesPerPixel is invalid value");
+                return;
+            }
+        }
+        p_ft += bitmap->pitch;
+        p_sdl += surface->pitch;
     }
 
     SDL_UnlockSurface(surface);
@@ -806,7 +806,7 @@ SDLPango_CreateContext_GivenFontDesc(const char* font_desc)
     context->layout = pango_layout_new (context->context);
 
     SDLPango_SetSurfaceCreateArgs(context, SDL_SWSURFACE, DEFAULT_DEPTH,
-	DEFAULT_RMASK, DEFAULT_GMASK, DEFAULT_BMASK, DEFAULT_AMASK);
+        DEFAULT_RMASK, DEFAULT_GMASK, DEFAULT_BMASK, DEFAULT_AMASK);
 
     context->tmp_ftbitmap = NULL;
 
@@ -895,17 +895,17 @@ SDL_Surface * SDLPango_CreateSurfaceDraw(
     width = PANGO_PIXELS (logical_rect.width);
     height = PANGO_PIXELS (logical_rect.height);
     if(width < context->min_width)
-	width = context->min_width;
+        width = context->min_width;
     if(height < context->min_height)
-	height = context->min_height;
+        height = context->min_height;
 
     surface = SDL_CreateRGBSurface(
-	context->surface_args.flags,
-	width, height, context->surface_args.depth,
-	context->surface_args.Rmask,
-	context->surface_args.Gmask,
-	context->surface_args.Bmask,
-	context->surface_args.Amask);
+        context->surface_args.flags,
+        width, height, context->surface_args.depth,
+        context->surface_args.Rmask,
+        context->surface_args.Gmask,
+        context->surface_args.Bmask,
+        context->surface_args.Amask);
 
     SDLPango_Draw(context, surface, 0, 0);
 
@@ -931,8 +931,8 @@ SDLPango_Draw(
     int width, height;
 
     if(! surface) {
-	SDL_SetError("surface is NULL");
-	return;
+        SDL_SetError("surface is NULL");
+        return;
     }
 
     iter = pango_layout_get_iter (context->layout);
@@ -946,29 +946,29 @@ SDLPango_Draw(
     }
 
     if((! context->tmp_ftbitmap) || context->tmp_ftbitmap->width < width
-	|| context->tmp_ftbitmap->rows < height)
+        || context->tmp_ftbitmap->rows < height)
     {
-	freeFTBitmap(context->tmp_ftbitmap);
+        freeFTBitmap(context->tmp_ftbitmap);
         context->tmp_ftbitmap = createFTBitmap(width, height);
     }
 
     do {
-	PangoLayoutLine *line;
-	int baseline;
+        PangoLayoutLine *line;
+        int baseline;
 
-	line = pango_layout_iter_get_line (iter);
+        line = pango_layout_iter_get_line (iter);
 
-	pango_layout_iter_get_line_extents (iter, NULL, &logical_rect);
-	baseline = pango_layout_iter_get_baseline (iter);
+        pango_layout_iter_get_line_extents (iter, NULL, &logical_rect);
+        baseline = pango_layout_iter_get_baseline (iter);
 
-	drawLine(
-	    context,
-	    surface,
-	    line,
-	    x + PANGO_PIXELS (logical_rect.x),
-	    y + PANGO_PIXELS (logical_rect.y),
-	    PANGO_PIXELS (logical_rect.height),
-	    PANGO_PIXELS (baseline - logical_rect.y));
+        drawLine(
+            context,
+            surface,
+            line,
+            x + PANGO_PIXELS (logical_rect.x),
+            y + PANGO_PIXELS (logical_rect.y),
+            PANGO_PIXELS (logical_rect.height),
+            PANGO_PIXELS (baseline - logical_rect.y));
     } while (pango_layout_iter_next_line (iter));
 
     pango_layout_iter_free (iter);
@@ -1011,8 +1011,8 @@ freeFTBitmap(
     FT_Bitmap *bitmap)
 {
     if(bitmap) {
-	g_free(bitmap->buffer);
-	g_free(bitmap);
+        g_free(bitmap->buffer);
+        g_free(bitmap);
     }
 }
 
@@ -1045,9 +1045,9 @@ SDLPango_SetMinimumSize(
 {
     int pango_width;
     if(width > 0)
-	pango_width = width * PANGO_SCALE;
+        pango_width = width * PANGO_SCALE;
     else
-	pango_width = -1;
+        pango_width = -1;
     pango_layout_set_width(context->layout, pango_width);
 
     context->min_width = width;
@@ -1196,23 +1196,23 @@ void SDLCALL SDLPango_SetBaseDirection(
 
     switch(direction) {
     case SDLPANGO_DIRECTION_LTR:
-	pango_dir = PANGO_DIRECTION_LTR;
-	break;
+        pango_dir = PANGO_DIRECTION_LTR;
+        break;
     case SDLPANGO_DIRECTION_RTL:
-	pango_dir = PANGO_DIRECTION_RTL;
-	break;
+        pango_dir = PANGO_DIRECTION_RTL;
+        break;
     case SDLPANGO_DIRECTION_WEAK_LTR:
-	pango_dir = PANGO_DIRECTION_WEAK_LTR;
-	break;
+        pango_dir = PANGO_DIRECTION_WEAK_LTR;
+        break;
     case SDLPANGO_DIRECTION_WEAK_RTL:
-	pango_dir = PANGO_DIRECTION_WEAK_RTL;
-	break;
+        pango_dir = PANGO_DIRECTION_WEAK_RTL;
+        break;
     case SDLPANGO_DIRECTION_NEUTRAL:
-	pango_dir = PANGO_DIRECTION_NEUTRAL;
-	break;
+        pango_dir = PANGO_DIRECTION_NEUTRAL;
+        break;
     default:
-	SDL_SetError("unknown direction value");
-	return;
+        SDL_SetError("unknown direction value");
+        return;
     }
 
     pango_context_set_base_dir (context->context, pango_dir);
