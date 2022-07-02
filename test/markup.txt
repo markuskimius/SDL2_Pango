@@ -1,4 +1,4 @@
-<span size="x-large">SDL_Παν語 testbench</span>
+<span size="x-large">SDL2_Pango testbench</span>
 
 <span variant="smallcaps">This is a list of ways to say hello in <span style="italic">various languages</span>. Its purpose is to <span weight="bold">illustrate</span> a number of scripts.</span>
 
@@ -14,4 +14,4 @@ Arabic	السلام عليكم
 <span background="red">Cantonese</span>	(粵語,廣東話)	早晨, 你好
 <span foreground="blue">Korean</span>	(한글)	안녕하세요, 안녕하십니까
 
-Many other languages are available, of course.
+Many other languages are also available.

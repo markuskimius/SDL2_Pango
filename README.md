@@ -8,6 +8,14 @@ by NAKAMURA Ken'ichi.  It has been ported to SDL2 by Pere Pujal i Carabantes.
 Additional contributions have been made by many authors (see [AUTHORS]).
 
 
+## Example
+
+<img src='https://github.com/markuskimius/SDL2_Pango/blob/master/test/screenshot.png' />
+
+* [Source text]
+* [Source code]
+
+
 ## Build & Installation
 
 ### Prerequisites
@@ -58,6 +66,8 @@ Licensed under LGPL 2.1.  See [COPYING] for more information.
 
 
 [SDL_Pango]: http://sdlpango.sourceforge.net/
+[Source text]: https://github.com/markuskimius/SDL2_Pango/blob/master/test/markup.txt
+[Source code]: https://github.com/markuskimius/SDL2_Pango/blob/master/test/testbench.c
 [Pango]: https://pango.gnome.org/
 [SDL2]: https://www.libsdl.org/
 [FreeType2]: https://freetype.org/
