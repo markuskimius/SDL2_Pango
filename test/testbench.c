@@ -28,24 +28,24 @@ int resizeLoop(SDL_Surface **framebuf)
     SDL_Event event;
 
     while( SDL_PollEvent( &event ) ){
-	switch( event.type ){
-	case SDL_QUIT:
-	    return 0;
+        switch( event.type ){
+        case SDL_QUIT:
+            return 0;
 
-	case  SDL_VIDEORESIZE:
-	    *framebuf = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_SWSURFACE | SDL_RESIZABLE);
-	    break;
+        case  SDL_VIDEORESIZE:
+            *framebuf = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_SWSURFACE | SDL_RESIZABLE);
+            break;
 
-	case SDL_KEYUP:
-	    if(event.key.keysym.sym == SDLK_RETURN)
-		SDLPango_SetMarkup(context, text, -1);
-	    else if(event.key.keysym.sym == SDLK_SPACE)
-		SDLPango_SetText(context, text, -1);
-	    break;
+        case SDL_KEYUP:
+            if(event.key.keysym.sym == SDLK_RETURN)
+                SDLPango_SetMarkup(context, text, -1);
+            else if(event.key.keysym.sym == SDLK_SPACE)
+                SDLPango_SetText(context, text, -1);
+            break;
 
-	default:
-	    break;
-	}
+        default:
+            break;
+        }
     }
 
     return -1;
@@ -57,7 +57,7 @@ char *readFile(const char *filename)
     char *text;
     FILE *file = fopen(filename, "rb");
     if(! file)
-	exit(1);
+        exit(1);
 
     fseek(file, 0, SEEK_END);
     file_size = ftell(file);
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     SDL_Surface *framebuf;
     SDL_Surface *surface;
     if(argc == 1)
-	exit(1);
+        exit(1);
 
     SDL_Init(SDL_INIT_VIDEO);
     SDLPango_Init();
@@ -101,32 +101,32 @@ int main(int argc, char *argv[])
     SDLPango_SetMarkup(context, text, -1);
 
     while(resizeLoop(&framebuf)) {
-	SDL_Surface *surface;
+        SDL_Surface *surface;
 
-	SDLPango_SetMinimumSize(context, framebuf->w, 0);
+        SDLPango_SetMinimumSize(context, framebuf->w, 0);
 
 #ifdef GET_LAUOUT_WIDTH
-	{
-	    int w, h;
-	    w = SDLPango_GetLayoutWidth(context);
-	    h = SDLPango_GetLayoutHeight(context);
-	}
+        {
+            int w, h;
+            w = SDLPango_GetLayoutWidth(context);
+            h = SDLPango_GetLayoutHeight(context);
+        }
 #endif
 
 #ifdef CREATE_SURFACE_DRAW
-	surface = SDLPango_CreateSurfaceDraw(context);
+        surface = SDLPango_CreateSurfaceDraw(context);
 #else
-	surface = SDL_CreateRGBSurface(SDL_SWSURFACE, framebuf->w, framebuf->h,
-	    32, (Uint32)(255 << (8 * 3)), (Uint32)(255 << (8 * 2)),
-	    (Uint32)(255 << (8 * 1)), 255);
-	SDLPango_Draw(context, surface, 0, 0);
+        surface = SDL_CreateRGBSurface(SDL_SWSURFACE, framebuf->w, framebuf->h,
+            32, (Uint32)(255 << (8 * 3)), (Uint32)(255 << (8 * 2)),
+            (Uint32)(255 << (8 * 1)), 255);
+        SDLPango_Draw(context, surface, 0, 0);
 #endif
 
-	SDL_FillRect(framebuf, NULL, SDL_MapRGBA(framebuf->format, 0, 0, 0, 0));
-	SDL_BlitSurface(surface, NULL, framebuf, NULL);
-	SDL_UpdateRect(framebuf, 0, 0, framebuf->w, framebuf->h);
+        SDL_FillRect(framebuf, NULL, SDL_MapRGBA(framebuf->format, 0, 0, 0, 0));
+        SDL_BlitSurface(surface, NULL, framebuf, NULL);
+        SDL_UpdateRect(framebuf, 0, 0, framebuf->w, framebuf->h);
 
-	SDL_FreeSurface(surface);
+        SDL_FreeSurface(surface);
     }
 
     free(text);
