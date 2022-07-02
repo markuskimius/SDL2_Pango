@@ -32,6 +32,9 @@
 
 #include "SDL2/begin_code.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -68,8 +71,6 @@ extern const SDLPango_Matrix *MATRIX_TRANSPARENT_BACK_WHITE_LETTER;
     This is useful for KARAOKE like rendering.
 */
 extern const SDLPango_Matrix *MATRIX_TRANSPARENT_BACK_TRANSPARENT_LETTER;
-
-typedef FT_Bitmap;
 
 /*!
     Specifies direction of text. See Pango reference for detail

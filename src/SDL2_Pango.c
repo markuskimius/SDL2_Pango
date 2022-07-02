@@ -351,7 +351,9 @@ const SDLPango_Matrix *MATRIX_TRANSPARENT_BACK_TRANSPARENT_LETTER = &_MATRIX_TRA
 int
 SDLPango_Init()
 {
-    g_type_init();
+#if !GLIB_CHECK_VERSION(2,35,0)
+    g_type_init ();
+#endif
 
     IS_INITIALIZED = -1;
 
@@ -788,12 +790,12 @@ SDLPango_Context*
 SDLPango_CreateContext_GivenFontDesc(const char* font_desc)
 {
     SDLPango_Context *context = g_malloc(sizeof(SDLPango_Context));
-    G_CONST_RETURN char *charset;
+    const char *charset;
 
     context->font_map = pango_ft2_font_map_new ();
     pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (context->font_map), DEFAULT_DPI, DEFAULT_DPI);
 
-    context->context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (context->font_map));
+    context->context = pango_font_map_create_context (context->font_map);
 
     g_get_charset(&charset);
     pango_context_set_language (context->context, pango_language_from_string (charset));
@@ -824,7 +826,7 @@ SDLPango_CreateContext_GivenFontDesc(const char* font_desc)
 SDLPango_Context*
 SDLPango_CreateContext()
 {
-    SDLPango_CreateContext_GivenFontDesc(MAKE_FONT_NAME(DEFAULT_FONT_FAMILY, DEFAULT_FONT_SIZE));
+    return SDLPango_CreateContext_GivenFontDesc(MAKE_FONT_NAME(DEFAULT_FONT_FAMILY, DEFAULT_FONT_SIZE));
 }
 
 /*!
