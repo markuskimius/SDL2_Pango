@@ -1,6 +1,24 @@
-Authors of SDL_Pango.
+AUTHORS for SDL2_Pango
 
-The following contributions warranted legal paper exchanges with the
-Free Software Foundation.  Also see files ChangeLog and THANKS.
+* NAKAMURA Ken'ichi <nakamura@sbp.fp.a.u-tokyo.ac.jp>
+  - Original development, SDL_Pango.
 
-SDL_Pango       NAKAMURA Ken'ichi
+* Debian patches to SDL_Pango:
+  - Aurelien Jarno <aurel32@debian.org>
+  - Felix Geyer <debfx-pkg@fobos.de>
+  - Josselin Mouette <joss@debian.org>
+  - Sam Hocevar (Debian packages) <sam+deb@zoy.org>
+
+* Pere Pujal i Carabantes <pere@fornol.no-ip.org>
+  - Ported to SDL2.
+  - Package renamed to SDL2_Pango.
+
+* Jianwei Zhang
+  - Android makefile.
+
+* Mark Kim <markuskimius@gmail.com> (bug fixes, documentation)
+  - Ported test code to SDL2.
+  - Resolve warnings.
+  - Bug fixes.
+  - Documentaiton updates.
+

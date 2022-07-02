@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 
-AC_INIT([SDL2_Pango],[0.1.2])
+AC_INIT([SDL2_Pango],[0.1.3])
 AM_MAINTAINER_MODE
 
 # Set various version strings - taken gratefully from the GTk sources
@@ -15,7 +15,7 @@ AM_MAINTAINER_MODE
 
 MAJOR_VERSION=0
 MINOR_VERSION=1
-MICRO_VERSION=2
+MICRO_VERSION=3
 INTERFACE_AGE=0
 BINARY_AGE=1
 VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION

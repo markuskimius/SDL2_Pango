@@ -1,3 +1,36 @@
+2022-07-02  Mark Kim <markuskimius@gmail.com>
+
+	* SDL2_Pango v0.1.3
+
+	  - Fix crash when calling SDLPango_CreateContext on some platforms.
+	  - Resolve compilation warnings.
+	  - Port test code to SDL2.
+	  - Documentation updates.
+
+2021-10-08  Mark Kim <markuskimius@gmail.com>
+
+	* Commit configure script into the repo.
+	* Apple Silicon support.
+	* Documentation.
+
+2015-08-27  Jianwei Zhang
+
+	* Android makefile
+
+	  The Android makefile was made by Jianwei Zhang as a GSOC 2015 project.
+	  Cleaned up and merged by Pere Pujal i Carabantes.
+
+	    https://github.com/tux4kids/Tuxpaint-Android
+
+2015-02-20  Pere Pujal i Carabantes <pere@fornol.no-ip.org>
+
+	* SDL2_Pango v0.1.2
+
+	  Modified libsdl_pango1 debian package to work with SDL2 downloaded with
+	  apt-get source.
+
+	    https://sourceforge.net/projects/tuxpaint-sdl2/files/SDL2_Pango/
+
 2004-12-07  NAKAMURA Ken'ichi  <nakamura@sbp.fp.a.u-tokyo.ac.jp>
 
 	* Version 0.1.2

@@ -4,6 +4,25 @@ BODY,H1,H2,H3,H4,H5,H6,P,CENTER,TD,TH,UL,DL,DIV {
 H1 {
 	text-align: center;
 }
+h1.warning {
+    color: red;
+    padding: 1ex;
+    background-color: black;
+    border: 1px solid red;
+}
+div.qindex::after {
+    color: red;
+    padding: 1ex;
+    background-color: black;
+    border: 1px solid red;
+    display: block;
+    margin: 1ex;
+    content: "This is the documentation to SDL_Pango, the predecessor to \
+        SDL2_Pango compatible with SDL1.  While SDL2_Pango maintains the same \
+        API as SDL_Pango (other than the renaming of the header file to \
+        SDL2_Pango.h), the example code in this documentation uses SDL1 which \
+        is not backward compatible with SDL2.";
+}
 CAPTION { font-weight: bold }
 DIV.qindex {
 	width: 100%;
