@@ -556,18 +556,27 @@ drawLine(
         case PANGO_UNDERLINE_NONE:
             break;
         case PANGO_UNDERLINE_DOUBLE:
+#if PANGO_VERSION_CHECK(1,46,0)
+        case PANGO_UNDERLINE_DOUBLE_LINE:
+#endif
             drawHLine(surface, &color_matrix,
                 risen_y + 4,
                 x + PANGO_PIXELS (x_off + ink_rect.x),
                 x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
-          /* Fall through */
+            /* Fall through */
         case PANGO_UNDERLINE_SINGLE:
+#if PANGO_VERSION_CHECK(1,46,0)
+        case PANGO_UNDERLINE_SINGLE_LINE:
+#endif
             drawHLine(surface, &color_matrix,
                 risen_y + 2,
                 x + PANGO_PIXELS (x_off + ink_rect.x),
                 x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
             break;
         case PANGO_UNDERLINE_ERROR:
+#if PANGO_VERSION_CHECK(1,46,0)
+        case PANGO_UNDERLINE_ERROR_LINE:
+#endif
             {
                 int point_x;
                 int counter = 0;
@@ -595,7 +604,7 @@ drawLine(
                 risen_y + PANGO_PIXELS (ink_rect.y + ink_rect.height),
                 x + PANGO_PIXELS (x_off + ink_rect.x),
                 x + PANGO_PIXELS (x_off + ink_rect.x + ink_rect.width));
-          break;
+            break;
         }
 
         if (strike)
@@ -1123,6 +1132,19 @@ SDLPango_SetMarkup(
     pango_layout_set_font_description (context->layout, context->font_desc);
 }
 
+static PangoAlignment
+SDLPango_AlignmentToPango(SDLPango_Alignment alignment) {
+    PangoAlignment pango_alignment = PANGO_ALIGN_LEFT;
+
+    switch(alignment) {
+    case SDLPANGO_ALIGN_LEFT   : pango_alignment = PANGO_ALIGN_LEFT;   break;
+    case SDLPANGO_ALIGN_CENTER : pango_alignment = PANGO_ALIGN_CENTER; break;
+    case SDLPANGO_ALIGN_RIGHT  : pango_alignment = PANGO_ALIGN_RIGHT;  break;
+    }
+
+    return pango_alignment;
+}
+
 void
 SDLPango_SetText_GivenAlignment(
     SDLPango_Context *context,
@@ -1133,7 +1155,7 @@ SDLPango_SetText_GivenAlignment(
     pango_layout_set_attributes(context->layout, NULL);
     pango_layout_set_text (context->layout, text, length);
     pango_layout_set_auto_dir (context->layout, TRUE);
-    pango_layout_set_alignment (context->layout, alignment);
+    pango_layout_set_alignment (context->layout, SDLPango_AlignmentToPango(alignment));
     pango_layout_set_font_description (context->layout, context->font_desc);
 }
 
