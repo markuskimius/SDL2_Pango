@@ -13,6 +13,9 @@ AUTHORS for SDL2_Pango
   - Ported to SDL2.
   - Package renamed to SDL2_Pango.
 
+* Shin-ichi TOYAMA <dolphin6k@wmail.plala.or.jp>
+  - MinGW patch.
+
 * Jianwei Zhang
   - Android makefile.
 

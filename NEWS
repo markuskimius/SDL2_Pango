@@ -1,7 +1,4 @@
-Version 0.1.3
+Version 0.1.4
 
-* Fix crash when calling SDLPango_CreateContext on some platforms.
-* Resolve compilation warnings.
-* Port test code to SDL2.
-* Documentation updates.
+* MinGW patch.
 
