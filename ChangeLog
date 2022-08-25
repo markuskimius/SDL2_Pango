@@ -1,3 +1,16 @@
+2022-08-25  Mark Kim <markuskimius@gmail.com>
+
+	* Update test/COPYING with the new license file
+
+	  - test/COPYING is for LGPL 2.0 but the comments in test/testbench.c
+		says it's licensed under LGPL 2.1, same as the rest of the main
+		library code.  Updated.
+
+	* SDL2_Pango v2.1.5
+
+	   - Needed to jump ahead in the version number to keep version number
+		 consistent across platforms.  ("0.1.5 for SDL 2")
+
 2022-07-09 Shin-ichi TOYAMA <dolphin6k@wmail.plala.or.jp>
 
 	* MinGW patch
